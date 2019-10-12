@@ -57,4 +57,14 @@ class Cate extends Common{
             echo json_encode(["status"=>0,"content"=>"not ok"]);
         }
     }
+    public function change_cate_name(){
+        $cate_name=request()->post("cate_name");
+        $cate_id=request()->post("cate_id");
+        $cate_name=str_replace("-","",$cate_name);
+        if(Db::table("shop_cate")->where("cate_id",$cate_id)->update(["cate_name"=>$cate_name])){
+            echo json_encode(["status"=>1,"content"=>"ok"]);
+        }else{
+            echo json_encode(["status"=>0,"content"=>"not ok"]);
+        }
+    }
 }

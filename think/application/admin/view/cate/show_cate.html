@@ -28,6 +28,34 @@
                     }
                 });
             })
+            //点击变input框
+            $(document).on("click",".cate_name",function(){
+                name = $(this).html();
+                $(this).parent().html("<input type='text' name='cname' value='"+name+"'>");
+            });
+            $(document).on("blur","input[name='cname']",function(){
+                var val = $(this).val();
+                var cid = $(this).parents("tr").attr("cid");
+                var obj = $(this);
+                if(val==""||val==name){
+                    $(this).parent().html("<span class='cate_name'>"+name+"</span>");
+                }else{
+                    $.ajax({
+                        type:"post",
+                        url:"{:url('Cate/change_cate_name')}",
+                        data:{
+                            cate_name:val,
+                            cate_id:cid
+                        },
+                        dataType:"json",
+                        success:function(data){
+                            if(data.status==1){
+                                location.href="";
+                            }
+                        }
+                    })
+                }
+            })
         });
     </script>
 </head>
@@ -50,7 +78,7 @@
      </tr>
     {foreach $cates as $key=>$vo}
      <tr cid="{$vo.cate_id}">
-        <td align="left"> <a href="product.php?cat_id=1">{:str_repeat("--",$vo.level)}{$vo.cate_name}</a></td>
+        <td align="left"><span class="cate_name">{:str_repeat("--",$vo.level)}{$vo.cate_name}</span></td>
         <td align="center" show_id="{$vo.cate_is_show}">
             {if ( $vo.cate_is_show == 1)} <span class="show" style="color: green">√</span>
             {else /} <span class="show" style="color: red">×</span>

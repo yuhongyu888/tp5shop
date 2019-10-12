@@ -8,6 +8,28 @@
 <link href="/static/admin/css/public.css" rel="stylesheet" type="text/css">
 <script type="text/javascript" src="/static/admin/js/jquery.min.js"></script>
 <script type="text/javascript" src="/static/admin/js/global.js"></script>
+    <script>
+        $(function(){
+            $(document).on("click",".show",function(){
+                var show_status = $(this).parent().attr("show_id");
+                var cid = $(this).parents("tr").attr("cid");
+                $.ajax({
+                    type:"post",
+                    url:"{:url('Cate/change_show_status')}",
+                    data:{
+                        show_status:show_status,
+                        cid:cid
+                    },
+                    dataType:"json",
+                    success:function(data){
+                        if(data.status==1){
+                            location.href=""
+                        }
+                    }
+                });
+            })
+        });
+    </script>
 </head>
 <body>
 {include file='public/head'}
@@ -27,11 +49,11 @@
         <th width="80" align="center">操作</th>
      </tr>
     {foreach $cates as $key=>$vo}
-     <tr>
+     <tr cid="{$vo.cate_id}">
         <td align="left"> <a href="product.php?cat_id=1">{:str_repeat("--",$vo.level)}{$vo.cate_name}</a></td>
-        <td align="center">
-            {if ( $vo.cate_is_show == 1)} <span style="color: green">√</span>
-            {else /} <span style="color: red">×</span>
+        <td align="center" show_id="{$vo.cate_is_show}">
+            {if ( $vo.cate_is_show == 1)} <span class="show" style="color: green">√</span>
+            {else /} <span class="show" style="color: red">×</span>
             {/if}
         </td>
         <td align="center">

@@ -43,4 +43,18 @@ class Cate extends Common{
             }
         }
     }
+    public function change_show_status(){
+        $cate_status=request()->post("show_status");
+        $cid=request()->post("cid");
+        if($cate_status==0){
+            $cate_status=1;
+        }else{
+            $cate_status=0;
+        }
+        if(Db::table("shop_cate")->where("cate_id",$cid)->update(["cate_is_show"=>$cate_status])){
+            echo json_encode(["status"=>1,"content"=>"ok"]);
+        }else{
+            echo json_encode(["status"=>0,"content"=>"not ok"]);
+        }
+    }
 }

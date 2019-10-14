@@ -1,0 +1,100 @@
+{extend name="public:base"}
+{block name="script"}
+<script>
+    $(function(){
+        $(".pager a").click(function(){
+            pagenow = parseInt($(".pager").attr("pagenow"));
+            pagelast = parseInt($(".pager").attr("pagelast"));
+            if($(this).is("#first")){
+                page = 1;
+            }
+            if($(this).is("#prev")){
+                page = pagenow - 1;
+            }
+            if($(this).is("#next")){
+                page = pagenow + 1;
+            }
+            if($(this).is("#last")){
+                page = pagelast;
+            }
+            console.log(page);
+            if(page == 0 || page >pagelast){
+                return false;
+            }
+            $.ajax({
+                type:'post',
+                url:'{:url("Log/page")}',
+                data:{
+                    page:page
+                },
+                dataType:"json",
+                success:function(data){
+                    if(data.status==1){
+                        $(".pager").attr("pagenow",page);
+                        $("#p").html(data.page);
+                        html='';
+                        $.each(data.content,function(k,v){
+                            html+='<tr>';
+                            html+='<td align="center">'+(k+1)+'</td>';
+                            html+='<td>'+ v.log_time+'</td>';
+                            html+='<td align="center">'+ v.admin_name+'</td>';
+                            html+='<td align="left">'+ v.log_content+'</td>';
+                            html+='<td align="center">'+v.admin_ip+'</td>';
+                            html+='</tr>';
+                        });
+                        $("tbody").html(html);
+                    }
+                }
+            })
+        })
+    });
+</script>
+{/block}
+{block name="body"}
+ <div id="dcMain">
+   <!-- 当前位置 -->
+<div id="urHere">DouPHP 管理中心<b>></b><strong>操作记录</strong> </div>   <div id="manager" class="mainBox" style="height:auto!important;height:550px;min-height:550px;">
+    <h3>操作记录</h3>
+<table width="100%" border="0" cellpadding="8" cellspacing="0" class="tableBasic">
+<thead>
+    <tr>
+        <th width="30" align="center">编号</th>
+        <th width="150" align="left">操作时间</th>
+        <th width="100" align="center">操作者</th>
+        <th align="left">操作记录</th>
+        <th width="100" align="center">IP地址</th>
+    </tr>
+</thead>
+<tbody>
+    {foreach $log as $key=>$vo}
+    <tr>
+        <td align="center">{$key+1}</td>
+        <td>{:date('Y-m-d H:i:s',$vo.log_time)}</td>
+        <td align="center">{$vo.admin_name}</td>
+        <td align="left">{$vo.log_content}</td>
+        <td align="center">{$vo.admin_ip}</td>
+    </tr>
+    {/foreach}
+</tbody>
+</table>
+    <div class="pager" pagenow="1" pagelast="{$pagelast}">
+        总计{$count}个记录，共 {$pagelast} 页，当前第 <span id="p">1</span> 页 |
+        <a href="javascript:void(0)" id="first">第一页</a>
+        <a href="javascript:void(0)" id="prev">上一页</a>
+        <a href="javascript:void(0)" id="next">下一页</a>
+        <a href="javascript:void(0)" id="last">最末页</a>
+    </div>
+ </div>
+ </div>
+ <div class="clear"></div>
+{/block}
+<div id="dcFooter">
+ <div id="footer">
+  <div class="line"></div>
+  <ul>
+   版权所有 © 2013-2015 漳州豆壳网络科技有限公司，并保留所有权利。
+  </ul>
+ </div>
+</div>
+<!-- dcFooter 结束 -->
+<div class="clear"></div>

@@ -5,9 +5,10 @@
     <title>Title</title>
 </head>
 <body>
+
 <div id="dcLeft"><div id="menu">
     <ul class="top">
-        <li><a href="index.html"><i class="home"></i><em>管理首页</em></a></li>
+        <li><a href="{:url('Index/index')}"><i class="home"></i><em>管理首页</em></a></li>
     </ul>
     <ul>
         <li><a href="system.html"><i class="system"></i><em>系统设置</em></a></li>
@@ -16,8 +17,8 @@
         <li><a href="page.html"><i class="page"></i><em>单页面管理</em></a></li>
     </ul>
     <ul>
-        <li class="cur"><a href="{:url('Cate/show_cate')}"><i class="productCat"></i><em>商品分类</em></a></li>
-        <li><a href="product.html"><i class="product"></i><em>商品列表</em></a></li>
+        <li><a href="{:url('Cate/show_cate')}"><i class="productCat"></i><em>商品分类</em></a></li>
+        <li><a href="{:url('Product/product_show')}"><i class="product"></i><em>商品列表</em></a></li>
     </ul>
     <ul>
         <li><a href="article_category.html"><i class="articleCat"></i><em>文章分类</em></a></li>
@@ -28,8 +29,10 @@
         <li><a href="mobile.html"><i class="mobile"></i><em>手机版</em></a></li>
         <li><a href="theme.html"><i class="theme"></i><em>设置模板</em></a></li>
         <li><a href="manager.html"><i class="manager"></i><em>网站管理员</em></a></li>
-        <li><a href="manager.php?rec=manager_log"><i class="managerLog"></i><em>操作记录</em></a></li>
+        <li><a href="{:url('Log/show')}"><i class="managerLog"></i><em>操作记录</em></a></li>
     </ul>
-</div></div>
+</div>
+</div>
+
 </body>
 </html>

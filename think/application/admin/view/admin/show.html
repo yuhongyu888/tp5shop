@@ -18,8 +18,7 @@
         <td>{$vo.admin_name}</td>
         <td align="center">{$vo.admin_email}</td>
         <td align="center">{:date("Y-m-d H:i:s",$vo.admin_time)}</td>
-        <td align="center"><a href="addmanager.html?rec=edit&id=1">编辑</a> | <a href="manager
-.html?rec=del&id=1">删除</a></td>
+        <td align="center"><a href="{:url('Role/add',['admin_id'=>$vo.admin_id])}">编辑角色</a> | <a href="manager.html?rec=del&id=1">删除</a></td>
     </tr>
     {/foreach}
 </table>

@@ -25,7 +25,7 @@
         <td width="100px"><input type="checkbox" name="limit_id[]" value="{$vo.limit_id}" class="plimit" status="0">　{$vo.limit_name}</td>
         <td>
             {foreach $vo.child as $key=>$val}
-            <input type="checkbox" name="limit_id[]" value="{$val.limit_id}" class="slimit">　{$vo.limit_name}　　
+            <input type="checkbox" name="limit_id[]" value="{$val.limit_id}" class="slimit">　{$val.limit_name}　　
             {/foreach}
         </td>
     </tr>

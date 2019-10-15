@@ -1,0 +1,48 @@
+{extend name="public:base"}
+{block name="body"}
+ <div id="dcMain">
+   <!-- 当前位置 -->
+<div id="urHere">DouPHP 管理中心<b>></b><strong>添加品牌</strong> </div>   <div id="manager" class="mainBox" style="height:auto!important;height:550px;min-height:550px;">
+    <h3><a href="{:url('Brand/show')}" class="actionBtn">返回列表</a>添加品牌</h3>
+<form action="" method="post" enctype="multipart/form-data">
+     <table width="100%" border="0" cellpadding="8" cellspacing="0" class="tableBasic">
+      <tr>
+       <td width="100" align="right">品牌名称</td>
+       <td>
+        <input type="text" name="brand_name" size="40" class="inpMain" />
+       </td>
+      </tr>
+      <tr>
+       <td width="100" align="right">品牌顺序</td>
+       <td>
+           <input type="text" name="brand_order" size="40" class="inpMain" />
+       </td>
+      </tr>
+      <tr>
+       <td align="right">品牌logo</td>
+       <td>
+           <input type="file" name="brand_logo">
+       </td>
+      </tr>
+         <tr>
+             <td align="right">是否显示</td>
+             <td>
+                 <input type="radio" name="brand_status" value="1" checked>显示
+                 <input type="radio" name="brand_status" value="0">不显示
+             </td>
+         </tr>
+      <tr>
+       <td></td>
+       <td>
+        <input type="hidden" name="token" value="5a58b748" />
+        <input type="submit" class="btn" value="提交" />
+       </td>
+      </tr>
+     </table>
+    </form>
+</div>
+ </div>
+ <div class="clear"></div>
+{/block}
+<!-- dcFooter 结束 -->
+<div class="clear"></div>

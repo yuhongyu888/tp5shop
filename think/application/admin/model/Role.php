@@ -7,6 +7,12 @@ use think\Model;
 
 class Role extends Model
 {
+    protected $pk="role_id";
+    public function limits()
+    {
+        return $this->belongsToMany('Limit',"role_limit","limit_id","role_id");
+    }
+
     public static function addAdminRole($data){
         if(self::table("shop_admin_role")->insert($data)){
             return true;

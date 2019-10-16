@@ -10,6 +10,14 @@
                 $(this).parent().next().children("input").prop("checked",false);
             }
         });
+        $(".slimit").click(function(){
+            var s =$(this).prop("checked");
+            if(s){
+                $(this).parent().prev().children("input").prop("checked",true);
+            }else{
+                $(this).parent().prev().children("input").prop("checked",false);
+            }
+        });
     });
 </script>
 {/block}

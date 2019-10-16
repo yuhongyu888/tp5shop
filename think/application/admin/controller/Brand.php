@@ -42,4 +42,10 @@ class Brand extends Common
             }
         }
     }
+    public function update(){
+        echo "我是品牌的修改";
+    }
+    public function delete(){
+        echo "我是品牌的删除";
+    }
 }

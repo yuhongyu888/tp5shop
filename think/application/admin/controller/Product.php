@@ -13,4 +13,10 @@ class Product extends Common{
     public function product_add(){
         return view();
     }
+    public function product_update(){
+        echo "我是商品的修改";
+    }
+    public function product_delete(){
+        echo "我是商品的删除";
+    }
 }

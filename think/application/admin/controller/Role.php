@@ -7,7 +7,9 @@ use app\admin\model\Admin;
 class Role extends Common
 {
     public function show(){
-        $roles=\app\admin\model\Role::getAllRoles();
+        $role=new \app\admin\model\Role();
+        $roles = $role::all();
+        // 获取用户的所有角色
         return view("",["roles"=>$roles]);
     }
     public function add(){
@@ -36,5 +38,11 @@ class Role extends Common
                 $this->error("添加失败");
             }
         }
+    }
+    public function update(){
+        echo "我是角色的修改";
+    }
+    public function delete(){
+        echo "我是角色的删除";
     }
 }

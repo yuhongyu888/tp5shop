@@ -7,17 +7,29 @@
         <table width="100%" border="0" cellpadding="8" cellspacing="0" class="tableBasic">
      <tr>
       <th width="30" align="center">编号</th>
-      <th align="left">管理员名称</th>
-      <th align="center">E-mail地址</th>
-      <th align="center">添加时间</th>
-      <th align="center">操作</th>
+      <th align="left" width="100px">管理员名称</th>
+      <th align="center" width="100px">E-mail地址</th>
+      <th align="center">拥有的角色</th>
+      <th align="center">拥有的权限</th>
+      <th align="center" width="100px">操作</th>
      </tr>
     {foreach $admin as $key=>$vo}
     <tr>
         <td align="center">{$key+1}</td>
         <td>{$vo.admin_name}</td>
         <td align="center">{$vo.admin_email}</td>
-        <td align="center">{:date("Y-m-d H:i:s",$vo.admin_time)}</td>
+        <td align="center">
+            {foreach $vo->role as $k=>$v}
+            {$v.role_name}
+            {/foreach}
+        </td>
+        <td align="center">
+            {foreach $vo->role as $k=>$v}
+                {foreach $v->limits as $k1=>$v1}
+                    {$v1.limit_name}
+                {/foreach}
+            {/foreach}
+        </td>
         <td align="center"><a href="{:url('Role/add',['admin_id'=>$vo.admin_id])}">编辑角色</a> | <a href="manager.html?rec=del&id=1">删除</a></td>
     </tr>
     {/foreach}

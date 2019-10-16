@@ -53,4 +53,10 @@ class Limit extends Common
             }
         }
     }
+    public function update(){
+        echo "我是权限的修改";
+    }
+    public function delete(){
+        echo "我是权限的删除";
+    }
 }

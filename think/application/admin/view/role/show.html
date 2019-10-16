@@ -7,15 +7,21 @@
         <table width="100%" border="0" cellpadding="8" cellspacing="0" class="tableBasic">
      <tr>
       <th width="30" align="center">编号</th>
-      <th align="left">角色名称</th>
-      <th align="center">角色描述</th>
-      <th align="center">操作</th>
+      <th align="center" width="100px">角色名称</th>
+      <th align="center" width="100px">角色描述</th>
+      <th align="center">拥有的权限</th>
+      <th align="center" width="100px">操作</th>
      </tr>
     {foreach $roles as $key=>$vo}
     <tr>
         <td align="center">{$key+1}</td>
         <td>{$vo.role_name}</td>
         <td align="center">{$vo.role_desc}</td>
+        <td>
+            {foreach $vo->limits as $k=>$v}
+            {$v->limit_name}
+            {/foreach}
+        </td>
         <td align="center"><a href="{:url('Limit/add_user_limit',['role_id'=>$vo.role_id])}">设置权限</a> | <a href="manager.html?rec=del&id=1">删除</a></td>
     </tr>
     {/foreach}

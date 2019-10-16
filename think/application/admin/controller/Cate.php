@@ -67,4 +67,10 @@ class Cate extends Common{
             echo json_encode(["status"=>0,"content"=>"not ok"]);
         }
     }
+    public function update_cate(){
+        echo "我是分类的修改";
+    }
+    public function delete_cate(){
+        echo "我是分类的删除";
+    }
 }

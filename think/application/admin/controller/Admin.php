@@ -4,7 +4,8 @@ use think\Validate;
 
 class Admin extends Common{
     public function show(){
-        $admin=\app\admin\model\Admin::get_admin();
+        $adminModel=new \app\admin\model\Admin();
+        $admin=$adminModel::all();
         return view("",["admin"=>$admin]);
     }
     public function add(){
@@ -44,5 +45,11 @@ class Admin extends Common{
                 $this->error("添加失败");
             }
         }
+    }
+    public function update(){
+        echo "我是管理员的修改";
+    }
+    public function delete(){
+        echo "我是管理员的删除";
     }
 }

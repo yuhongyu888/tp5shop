@@ -7,6 +7,7 @@ use think\Model;
 
 class Limit extends Model
 {
+    protected $pk="limit_id";
     public static function getAllLimit(){
         return self::table("shop_limit")->select();
     }

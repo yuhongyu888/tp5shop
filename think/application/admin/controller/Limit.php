@@ -3,11 +3,13 @@
 namespace app\admin\controller;
 
 
+use app\admin\service\AdminService;
+
 class Limit extends Common
 {
     public function show(){
         $limit=\app\admin\model\Limit::getAllLimit();
-        $data=\app\admin\model\Limit::sonLimit($limit);
+        $data=(new AdminService())->sonLimit($limit);
         return view("",["data"=>$data]);
     }
     public function add_user_limit(){
@@ -31,6 +33,7 @@ class Limit extends Common
         if(request()->isGet()){
             $limit=\app\admin\model\Limit::getAllLimit();
             $limits=\app\admin\model\Limit::orderLimit($limit);
+            $limits=(new AdminService())->sonLimit($limits);
             return view("",["limits"=>$limits]);
         }
         if(request()->isPost()){
@@ -40,12 +43,14 @@ class Limit extends Common
             $left_show=request()->post("left_show");
             $limit_controller=request()->post("limit_controller");
             $limit_acction=request()->post("limit_acction");
+            $url=ucfirst(strtolower($limit_controller))."/".strtolower($limit_acction);
             $data["limit_name"]=$limit_name;
             $data["limit_order"]=$limit_order;
             $data["limit_left_show"]=$left_show;
             $data["limit_pid"]=$limit_pid;
             $data["limit_controller"]=$limit_controller;
             $data["limit_acction"]=$limit_acction;
+            $data["limit_url"]=$url;
             if(\app\admin\model\Limit::addLimit($data)){
                 $this->success("添加成功","Limit/show");
             }else{

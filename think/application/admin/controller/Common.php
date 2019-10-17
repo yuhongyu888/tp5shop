@@ -27,6 +27,7 @@ class Common extends Controller{
         if(!$this->check_access()){
             $this->success("您没有权限操作","Index/index");
         }
+
         //左侧导航栏
         $this->left();
     }
@@ -58,12 +59,12 @@ class Common extends Controller{
     public function left(){
         $adminService=new AdminService();
         if(in_array(session("admin")["admin_name"],config("access.super_admin"))){
-            $limits=Limit::all();
+            $limits=Limit::where('limit_left_show', 1)->all()->toArray();
             $limits=$adminService->sonLimit($limits);
             View::share("limits",$limits);
         }else{
             $admin_id=session("admin")["admin_id"];
-            $limits=$adminService->getLimits($admin_id);
+            $limits=$adminService->getLeftLimits($admin_id);
             $limits=$adminService->sonLimit($limits);
             View::share("limits",$limits);
         }

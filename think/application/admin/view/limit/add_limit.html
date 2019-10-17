@@ -43,7 +43,10 @@
            <select name="limit_pid" id="">
                <option value="0">顶级权限</option>
                {foreach $limits as $key=>$vo}
-               <option value="{$vo.limit_id}">{:str_repeat("　",$vo.level)}{$vo.limit_name}</option>
+               <option value="{$vo.limit_id}">{$vo.limit_name}</option>
+               {foreach $vo.child as $k=>$v}
+               <option value="{$v.limit_id}">　　{$v.limit_name}</option>
+               {/foreach}
                {/foreach}
            </select>
        </td>

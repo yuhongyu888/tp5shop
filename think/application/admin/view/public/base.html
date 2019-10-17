@@ -63,10 +63,10 @@
     </ul>
     {foreach $limits as $key=>$val}
     <ul>
-        <li><a href="javascript:void(0)" class="purl" status="1"><i class="system"></i><em>{$val.limit_name}</em></a></li>
+        <li><a href="javascript:void(0)" class="purl" status="0"><i class="system"></i><em>{$val.limit_name}</em></a></li>
         <ul>
             {foreach $val.child as $k=>$v}
-            <li><a href="{:url($v.limit_url)}"><i class="system"></i><em>{$v.limit_name}</em></a></li>
+            <li style="display: none"><a href="{:url($v.limit_url)}"><i></i><em style="color: #0B90EF">{$v.limit_name}</em></a></li>
             {/foreach}
         </ul>
     </ul>

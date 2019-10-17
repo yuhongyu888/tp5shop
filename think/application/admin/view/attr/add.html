@@ -1,0 +1,100 @@
+{extend name="public:base"}
+{block name="script"}
+<script>
+    $(function(){
+        $("#t").click(function(){
+            $("textarea").prop("disabled",false);
+        });
+        $("#f").click(function(){
+            $("textarea").prop("disabled",true);
+        });
+        $(".type").click(function(){
+            var type_id = $(this).val();
+            $.ajax({
+                type:"post",
+                url:"{:url('Attr/getGroupName')}",
+                data:{
+                    type_id:type_id
+                },
+                dataType:"json",
+                success:function(data){
+                    if(data.status==1){
+                        html="";
+                        $.each(data.content,function(k,v){
+                            html+="<option value='"+v+"'>"+v+"</option>";
+                        });
+                        $(".group").html(html);
+                    }
+                }
+            });
+        });
+    })
+</script>
+{/block}
+{block name="body"}
+ <div id="dcMain">
+   <!-- 当前位置 -->
+<div id="urHere">DouPHP 管理中心<b>></b><strong>商品属性管理</strong> </div>   <div id="manager" class="mainBox" style="height:auto!important;height:550px;min-height:550px;">
+    <h3><a href="{:url('Attr/show')}" class="actionBtn">返回列表</a>商品属性管理</h3>
+<form action="" method="post">
+     <table width="100%" border="0" cellpadding="8" cellspacing="0" class="tableBasic">
+      <tr>
+       <td width="100" align="right">属性名称</td>
+       <td>
+        <input type="text" name="attr_name" size="40" class="inpMain" />
+       </td>
+      </tr>
+         <tr>
+             <td width="100" align="right">所属商品类型</td>
+             <td>
+                 <select name="type_id">
+                     <option value="">--请选择--</option>
+                     {foreach $type as $key=>$val}
+                     <option class="type" value="{$val.type_id}">{$val.type_name}</option>
+                     {/foreach}
+                 </select>
+             </td>
+         </tr>
+     <tr>
+         <td width="100" align="right">属性类型</td>
+         <td>
+             <input type="radio" name="attr_type" value="1" checked>规格
+             <input type="radio" name="attr_type" value="0">参数
+         </td>
+     </tr>
+     <tr>
+         <td width="100" align="right">所属分组</td>
+         <td>
+             <select name="group_name" class="group">
+                 <option value="">请选择分组</option>
+             </select>
+         </td>
+     </tr>
+      <tr>
+       <td width="100" align="right">该属性的录入方式</td>
+       <td>
+           <input type="radio" name="attr_input_type" id="f" value="0" checked>手工录入
+           <input type="radio" name="attr_input_type" id="t" value="1">可选值录入(使用中文状态下的，分隔)
+       </td>
+      </tr>
+         <tr>
+             <td width="100" align="right">可选值列表</td>
+             <td>
+                 <textarea name="attr_input_value" disabled cols="30" rows="5"></textarea>
+             </td>
+         </tr>
+      <tr>
+       <td></td>
+       <td>
+        <input type="hidden" name="token" value="5a58b748" />
+        <input type="submit" name="submit" class="btn" value="提交" />
+       </td>
+      </tr>
+     </table>
+    </form>
+</div>
+ </div>
+ <div class="clear"></div>
+{/block}
+<!-- dcFooter 结束 -->
+<div class="clear"></div>

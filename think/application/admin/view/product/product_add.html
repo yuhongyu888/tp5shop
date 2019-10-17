@@ -1,10 +1,100 @@
 {extend name="public:base"}
+{block name="script"}
+<style>
+    .span{
+        display: inline-block;
+        line-height: 32px;
+        padding: 0 25px;
+        margin-right: 10px;
+        cursor: pointer;
+        color: #888;
+        background-color: #f4f4f4;
+        border: 1px solid #dddddd;
+        border-bottom-color: rgb(221, 221, 221);
+        border-radius: 5px 5px 0 0;
+    }
+</style>
+<script>
+    $(function(){
+        // 添加属性
+        $("#t").click(function(){
+            $("textarea").prop("disabled",false);
+        });
+        $("#f").click(function(){
+            $("textarea").prop("disabled",true);
+        });
+        $(".type").click(function(){
+            $("#father").nextAll("tr").remove();
+            var type_id = $(this).val();
+            $.ajax({
+                type:"post",
+                url:"getGroupName",
+                data:{
+                    type_id:type_id
+                },
+                dataType:"json",
+                success:function(data){
+                    if(data.status==1){
+                        html='';
+                        $.each(data.content,function(k,v){
+                            html+='<tr>';
+                            html+='<td>';
+                            html+= v.attr_name;
+                            html+='</td>';
+                            html+='<td>';
+                            if(v.attr_input_type==0){
+                                html+='<input name="" size="40" class="inpMain">';
+                            }else{
+                                html+='<select name="">';
+                                $.each(v.value,function(k1,v1){
+                                    html+='<option value="'+v1+'">'+v1+'</option>'
+                                });
+                                html+='</select>';
+                            }
+                            html+='</td>';
+                            html+='</tr>';
+                        });
+                        $("#father").after(html);
+                    }
+                }
+            });
+        });
+
+        $(".span").click(function(){
+            if($(this).is("#info")){
+                $(this).css("font-size","20px").siblings().removeAttr("style");
+                $("div1").show();
+                $("div2").hide();
+                $("div3").hide();
+            }
+            if($(this).is("#desc")){
+                $(this).css("font-size","20px").siblings().removeAttr("style");
+                $("div1").hide();
+                $("div2").show();
+                $("div3").hide();
+            }
+            if($(this).is("#attr")){
+                $(this).css("font-size","20px").siblings().removeAttr("style");
+                $("div1").hide();
+                $("div2").hide();
+                $("div3").show();
+            }
+        });
+    });
+</script>
+{/block}
 {block name="body"}
  <div id="dcMain">
    <!-- 当前位置 -->
 <div id="urHere">DouPHP 管理中心<b>></b><strong>添加商品</strong> </div>   <div class="mainBox" style="height:auto!important;height:550px;min-height:550px;">
-            <h3><a href="{:url('Product/product_show')}" class="actionBtn">商品列表</a>添加商品</h3>
+    <h3><a href="{:url('Product/product_show')}" class="actionBtn">商品列表</a>添加商品</h3>
+
+     <span class="span" id="info">基本信息</span>
+     <span class="span" id="desc">详细描述</span>
+     <span class="span" id="attr">商品属性</span>
+
     <form action="product.php?rec=insert" method="post" enctype="multipart/form-data">
+        <div1>
      <table width="100%" border="0" cellpadding="8" cellspacing="0" class="tableBasic">
       <tr>
        <td width="90" align="right">商品名称</td>
@@ -47,12 +137,6 @@
                  <input type="text" name="product_order" size="40" class="inpMain" >
              </td>
          </tr>
-       <tr>
-       <td align="right" valign="top">商品描述</td>
-       <td>
-        <textarea name="product_desc" style="width:780px;height:400px;" class="textArea"></textarea>
-       </td>
-      </tr>
       <tr>
        <td align="right">缩略图</td>
        <td>
@@ -65,17 +149,47 @@
         <input type="text" name="product_keywords" value="" size="50" class="inpMain" />
        </td>
       </tr>
-      <tr>
-       <td></td>
-       <td>
-        <input type="hidden" name="token" value="21307217" />
-        <input type="hidden" name="id" value="">
-        <input name="submit" class="btn" type="submit" value="提交" />
-       </td>
-      </tr>
+      <!--<tr>-->
+       <!--<td></td>-->
+       <!--<td>-->
+        <!--<input type="hidden" name="token" value="21307217" />-->
+        <!--<input type="hidden" name="id" value="">-->
+       <!--</td>-->
+      <!--</tr>-->
      </table>
+     </div1>
+
+
+        <div2 style="display: none">
+         <table width="100%" border="0" cellpadding="8" cellspacing="0" class="tableBasic">
+            <tr>
+                <td align="right" valign="top">详细描述</td>
+                <td>
+                    <textarea name="product_desc" style="width:780px;height:400px;" class="textArea"></textarea>
+                </td>
+            </tr>
+         </table>
+        </div2>
+
+
+        <div3 style="display: none">
+            <table width="100%" border="0" cellpadding="8" cellspacing="0" class="tableBasic">
+                <tr id="father">
+                    <td width="100" align="right">商品所属类型</td>
+                    <td>
+                        <select name="type_id">
+                            <option value="">--请选择--</option>
+                            {foreach $type as $key=>$val}
+                            <option class="type" value="{$val.type_id}">{$val.type_name}</option>
+                            {/foreach}
+                        </select>
+                    </td>
+                </tr>
+            </table>
+        </div3>
+       <input name="submit" class="btn" type="submit" value="提交" />
     </form>
-           </div>
+
  </div>
 {/block}
  <div class="clear"></div>

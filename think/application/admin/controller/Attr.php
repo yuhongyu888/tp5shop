@@ -20,8 +20,7 @@ class Attr extends Common
     }
     public function add(){
         if(request()->isGet()){
-            $typeModel=new Type();
-            $type=$typeModel::all();
+            $type=Type::all();
             return view("",["type"=>$type]);
         }
         if(request()->isPost()){

@@ -20,22 +20,33 @@
             <th width="22" align="center"><input name='chkall' type='checkbox' id='chkall' onclick='selectcheckbox(this.form)' value='check'></th>
             <th width="40" align="center">编号</th>
             <th align="left">商品名称</th>
-            <th width="150" align="center">商品分类</th>
+            <th width="150" align="center">商品图片</th>
             <th width="80" align="center">库存数量</th>
             <th width="80" align="center">商品价格</th>
+            <th width="80" align="center">是否上架</th>
             <th width="80" align="center">操作</th>
         </tr>
+        {foreach $product as $key=>$vo}
         <tr>
             <td align="center"><input type="checkbox" name="checkbox[]" value="15" /></td>
-            <td align="center"></td>
-            <td><a href="product.php?rec=edit&id=15"></a></td>
-            <td align="center"><a href="product.php?cat_id=3"></a></td>
-            <td align="center"></td>
-            <td align="center"></td>
+            <td align="center">{$vo.product_id}</td>
+            <td><a href="product.php?rec=edit&id=15">{$vo.product_name}</a></td>
+            <td align="center"><img src="{$vo.product_img}" alt="" width="100px" height="80px"></td>
+            <td align="center">{$vo.product_num}</td>
+            <td align="center">{$vo.product_warn_num}</td>
+            <td>
+                {if $vo.product_status==1}已上架
+                {else}未上架
+                {/if}
+            </td>
             <td align="center">
-            <a href="product.php?rec=edit&id=15">编辑</a> | <a href="product.php?rec=del&id=15">删除</a>
+            <a href="">编辑</a> | <a href="">删除</a>　
+
+            <a href="{:url('Goods/add')}">添加货品</a>
+
             </td>
         </tr>
+        {/foreach}
     </table>
 
     <div class="action">

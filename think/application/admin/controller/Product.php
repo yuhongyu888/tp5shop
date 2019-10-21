@@ -6,10 +6,13 @@ use app\admin\model\BrandCate;
 use app\admin\model\Cate;
 use app\admin\model\ProductAttr;
 use app\admin\model\Type;
+use think\Db;
+use think\Exception;
 
 class Product extends Common{
     public function product_show(){
-        return view();
+        $product=\app\admin\model\Product::all();
+        return view("",["product"=>$product]);
     }
     public function product_add(){
         if(request()->isGet()){
@@ -21,12 +24,13 @@ class Product extends Common{
         }
         if(request()->isPost()){
             $data=request()->post();
-            $attr=[$data["attr_id"],$data["attr_name"],$data["attr"],$data["attr_type"]];
+            $attr=[$data["attr_id"],$data["attr_name"],$data["attr"],$data["attr_type"],$data["attr_price"]];
             unset($data["type_id"]);
             unset($data["attr_id"]);
             unset($data["attr_name"]);
             unset($data["attr"]);
-            unset($data["attr_input_type"]);
+            unset($data["attr_type"]);
+            unset($data["attr_price"]);
             $file = request()->file('product_img');
             // 移动到框架应用根目录/uploads/ 目录下
             $info = $file->move("../public/uploads");
@@ -44,27 +48,33 @@ class Product extends Common{
                 "brand_id"=>$data["brand_id"],
                 "cate_id"=>$data["cate_id"]
             ];
-            //添加商品表
-            $productModel=new \app\admin\model\Product();
-            $productModel->save($data);
-            $product_id=$productModel->product_id;
-            //添加商品属性表
-            $productAttrModel=new ProductAttr();
-            foreach($attr as $key=>$val){
-                $data=[
-                    "product_id"=>$product_id,
-                    "attr_id"=>$attr[0][$key],
-                    "attr_name"=>$attr[1][$key],
-                    "attr_value"=>$attr[2][$key],
-                    "attr_type"=>$attr[3][$key]
-                ];
-                $productAttrModel->save($data);
-            }
-            //添加品牌分类表
-            $brandCateModel=new BrandCate();
-            if($brandCateModel->save($bc)){
-                $this->success("添加成功","Product/product_show");
-            }else{
+            Db::startTrans();
+            try{
+                //添加商品表
+                $productModel=new \app\admin\model\Product();
+                $productModel->save($data);
+                $product_id=$productModel->product_id;
+                //添加商品属性表
+                $d=[];
+                foreach($attr[0] as $key=>$val){
+                    $d[]=[
+                        "product_id"=>1,
+                        "attr_id"=>$attr[0][$key],
+                        "attr_name"=>$attr[1][$key],
+                        "attr_value"=>$attr[2][$key],
+                        "attr_type"=>$attr[3][$key],
+                        "attr_price"=>$attr[4][$key]
+                    ];
+                }
+                $productAttrModel=new ProductAttr();
+                $productAttrModel->saveall($d);
+                //添加品牌分类表
+                $brandCateModel=new BrandCate();
+                $brandCateModel->save($bc);
+                Db::commit();
+                $this->success("添加商品成功","product_show");
+            }catch(Exception $e){
+                Db::rollback();
                 $this->error("添加失败");
             }
         }
@@ -85,18 +95,5 @@ class Product extends Common{
             }
         }
         return ["status"=>1,"msg"=>"ok","content"=>$attr];
-    }
-    public function add_attr(){
-        $attr=request()->post("attr");
-        $data=explode("/",$attr);
-        $data=[
-            "product_id"=>$data[0],
-            "attr_id"=>$data[1],
-            "attr_name"=>$data[2],
-            "attr_value"=>$data[3],
-            "attr_input_type"=>$data[4]
-        ];
-        $productAttrModel=new ProductAttr();
-        $productAttrModel->save($data);
     }
 }

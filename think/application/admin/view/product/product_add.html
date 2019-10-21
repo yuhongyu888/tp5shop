@@ -62,6 +62,7 @@
                                     html+='<input type="hidden" name="attr_name[]" value="'+v.attr_name+'">';
                                     html+='<input type="hidden" name="attr_id[]" value="'+v.attr_id+'">';
                                     html+='<input type="hidden" name="attr_type[]" value="'+v.attr_type+'">';
+                                    html+='<input type="hidden" name="attr_price[]" value="0">';
                                 }else{
                                     $.each(v.value,function(k1,v1){
                                         html+='<input type="radio" name="attr[]" value="'+v1+'">' +v1;
@@ -69,7 +70,26 @@
                                     html+='<input type="hidden" name="attr_name[]" value="'+v.attr_name+'">';
                                     html+='<input type="hidden" name="attr_id[]" value="'+v.attr_id+'">';
                                     html+='<input type="hidden" name="attr_type[]" value="'+v.attr_type+'">';
+                                    html+='<input type="hidden" name="attr_price[]" value="0">';
                                 }
+                                html+='</td>';
+                                html+='</tr>';
+                            }else{
+                                html+='<tr>';
+                                html+='<td>';
+                                html+= '<em style="color: red" class="add">[ + ]</em> ' +v.attr_name;
+                                html+='</td>';
+                                html+='<td>';
+                                html+=' <select  name="attr[]">';
+                                html+=' <option value="0">--请选择--</option>';
+                                $.each(v.value,function(k1,v1){
+                                    html+='<option value="'+v1+'">'+v1+'</option>';
+                                });
+                                html+='</select>';
+                                html+='<input type="hidden" name="attr_name[]" value="'+v.attr_name+'">';
+                                html+='<input type="hidden" name="attr_id[]" value="'+v.attr_id+'">';
+                                html+='<input type="hidden" name="attr_type[]" value="'+v.attr_type+'">';
+                                html+='【需要加价】<input name="attr_price[]" value="0">';
                                 html+='</td>';
                                 html+='</tr>';
                             }
@@ -95,13 +115,26 @@
             }
         });
 
+        $(document).on("click",".add",function(){
+            ht = $(this).parents("tr").html();
+            ht = ht.replace('<em style="color: red" class="add">[ + ]</em>','<em style="color: red" class="del">[ － ]</em>');
+            html='';
+            html+='<tr>';
+            html+=ht;
+            html+='</tr>';
+            $(this).parents("tr").after(html);
+        });
+        $(document).on("click",".del",function(){
+            $(this).parents("tr").remove();
+        })
     });
 </script>
 {/block}
 {block name="body"}
  <div id="dcMain">
    <!-- 当前位置 -->
-<div id="urHere">DouPHP 管理中心<b>></b><strong>添加商品</strong> </div>   <div class="mainBox" style="height:auto!important;height:550px;min-height:550px;">
+<div id="urHere">DouPHP 管理中心<b>></b><strong>添加商品</strong> </div>
+<div class="mainBox" style="height:auto!important;height:550px;min-height:550px;">
     <h3><a href="{:url('Product/product_show')}" class="actionBtn">商品列表</a>添加商品</h3>
 
      <span class="span" id="info">基本信息</span>
@@ -146,6 +179,18 @@
         <input type="text" name="product_price" value="0" size="40" class="inpMain" />
        </td>
       </tr>
+         <tr>
+             <td>库存数量</td>
+             <td>
+                 <input type="text" name="product_num" size="40" class="inpMain">
+             </td>
+         </tr>
+         <tr>
+             <td>库存警告数量</td>
+             <td>
+                 <input type="text" name="product_warn_num" size="40" class="inpMain">
+             </td>
+         </tr>
          <tr>
              <td align="right">商品状态</td>
              <td>
@@ -218,3 +263,4 @@
  <div class="clear"></div>
 <!-- dcFooter 结束 -->
 <div class="clear"></div>
+</div>

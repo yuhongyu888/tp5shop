@@ -2,9 +2,9 @@
 
 namespace app\admin\model;
 
-use think\Model;
+use think\model\Pivot;
 
-class ProductAttr extends Model
+class ProductAttr extends Pivot
 {
-    protected $pk="product_attr_id";
+
 }

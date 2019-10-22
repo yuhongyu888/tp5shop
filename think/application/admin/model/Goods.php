@@ -4,7 +4,7 @@ namespace app\admin\model;
 
 use think\Model;
 
-class ProductAttr extends Model
+class Goods extends Model
 {
-    //
+    protected $pk="goods_id";
 }

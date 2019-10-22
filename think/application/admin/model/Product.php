@@ -11,4 +11,8 @@ class Product extends Model
     {
         return $this->belongsToMany('Attr',"product_attr","attr_id","product_id");
     }
+    public function goods()
+    {
+        return $this->hasMany('Goods',"product_id","product_id");
+    }
 }

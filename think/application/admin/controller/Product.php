@@ -12,6 +12,13 @@ use think\Exception;
 class Product extends Common{
     public function product_show(){
         $product=\app\admin\model\Product::all();
+        foreach($product as $key=>$val){
+            $product_id=$val->product_id;
+            $arr=productAttr::where(["product_id"=>$product_id,"attr_type"=>1])->select()->toArray();
+            if(!empty($arr)) {
+                $product[$key]["attr_status"] = 1;
+            }
+        }
         return view("",["product"=>$product]);
     }
     public function product_add(){
@@ -58,7 +65,7 @@ class Product extends Common{
                 $d=[];
                 foreach($attr[0] as $key=>$val){
                     $d[]=[
-                        "product_id"=>1,
+                        "product_id"=>$product_id,
                         "attr_id"=>$attr[0][$key],
                         "attr_name"=>$attr[1][$key],
                         "attr_value"=>$attr[2][$key],

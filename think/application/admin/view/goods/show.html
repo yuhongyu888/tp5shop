@@ -1,0 +1,36 @@
+{extend name="public:base"}
+{block name="script"}
+{/block}
+{block name="body"}
+ <div id="dcMain">
+   <!-- 当前位置 -->
+<div id="urHere">DouPHP 管理中心<b>></b><strong>货品展示</strong> </div>   <div class="mainBox" style="height:auto!important;height:550px;min-height:550px;">
+<h3><a href="{:url('Goods/add',['product_id'=>$product_id])}" class="actionBtn add">添加货品</a>货品展示</h3>
+    <table width="100%" border="0" cellpadding="8" cellspacing="0" class="tableBasic">
+      <tr>
+        <th width="200" align="left">货品名称</th>
+        <th align="center">货号</th>
+        <th align="center">库存</th>
+        <th width="80" align="center">操作</th>
+     </tr>
+        {foreach $goods as $key=>$vo}
+     <tr>
+        <td align="left"><span class="cate_name">
+            {$vo.attr_value}
+        </span></td>
+        <td align="center">
+            {$vo.goods_sn}
+        </td>
+        <td align="center">
+            {$vo.goods_num}
+        </td>
+        <td align="center"><a href="product_category.php?rec=edit&cat_id=1">编辑</a> | <a href="product_category.php?rec=del&cat_id=1">删除</a></td>
+     </tr>
+        {/foreach}
+          </table>
+           </div>
+ </div>
+ <div class="clear"></div>
+{/block}
+<!-- dcFooter 结束 -->
+<div class="clear"></div>

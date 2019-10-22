@@ -1,8 +1,72 @@
 {extend name="public:base"}
-{block name="body"}
-<div id="dcMain">
-    <!-- 当前位置 -->
-    <div id="urHere">DouPHP 管理中心<b>></b><strong>添加分类</strong> </div>
-    <div class="mainBox" style="height:auto!important;height:550px;min-height:550px;">
-    </div>
+{block name="script"}
+<script>
+    $(function(){
+        $(".add").click(function(){
+            ht = $(this).parents("tr").clone();
+            $(this).parents("tr").after(ht);
+            $(this).parents("tr").next().find(".add").html("-").removeClass("add").addClass("del");
+            var tr_num=$("tr").size();
+            $(this).parents("tr").next().find("input,select").attr("name","product_attr_id["+tr_num+"][]")
+        });
+        $(document).on("click",".del",function(){
+            $(this).parents("tr").remove();
+        });
+//        $(document).on("click",".submit",function(){
+//            var formData=new FormData($("form").get(0));
+//            $.ajax({
+//                type:"post",
+//                url:"add",
+//                data:formData,
+//                dataType:"json",
+//                processData: false,//不处理发送的数据，因为data值是FormData对象，不需要对数据做处理
+//                contentType: false,
+//                success:function(data){
+//
+//                }
+//            });
+//        });
+    });
+</script>
 {/block}
+{block name="body"}
+ <div id="dcMain">
+   <!-- 当前位置 -->
+<div id="urHere">DouPHP 管理中心<b>></b><strong>添加货品</strong> </div>   <div class="mainBox" style="height:auto!important;height:550px;min-height:550px;">
+            <h3><a href="{:url('Goods/show')}" class="actionBtn">货品展示</a>添加货品</h3>
+     <form action="" method="post">
+     <table width="100%" border="0" cellpadding="8" cellspacing="0" class="tableBasic">
+         <tr>
+         <th></th>
+         {foreach $result as $key=>$vo}
+             <th>{$key}</th>
+         {/foreach}
+             <th width="100px">库存</th>
+         </tr>
+
+       <tr>
+        <td align="center"><span style="font-size: 30px;cursor: pointer" class="add">+</span></td>
+       {foreach $result as $key=>$vo}
+       <td align="center">
+           <select name="product_attr_id[0][]">
+               <option value="0">请选择</option>
+               {foreach $vo as $k=>$v}
+               <option value="{$v.product_attr_id}">{$v.attr_value}</option>
+               {/foreach}
+           </select>
+       </td>
+       {/foreach}
+           <td align="center">
+               <input type="text" name="product_attr_id[0][]" size="38" class="inpFlie">
+           </td>
+       </tr>
+     </table>
+         <input type="hidden" name="product_id" value="{$product_id}">
+         <input type="submit" class="btn" value="确定">
+     </form>
+       </div>
+ </div>
+ <div class="clear"></div>
+{/block}
+<!-- dcFooter 结束 -->
+<div class="clear"></div>

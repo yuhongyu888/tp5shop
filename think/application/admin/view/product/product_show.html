@@ -41,9 +41,9 @@
             </td>
             <td align="center">
             <a href="">编辑</a> | <a href="">删除</a>　
-
-            <a href="{:url('Goods/add')}">添加货品</a>
-
+            {if $vo.attr_status==1}
+            <a href="{:url('Goods/show',['product_id'=>$vo.product_id])}">货品列表</a>
+            {/if}
             </td>
         </tr>
         {/foreach}
